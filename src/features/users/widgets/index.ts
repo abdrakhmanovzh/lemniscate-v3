@@ -1,1 +1,1 @@
-export { UsersBar } from './Usersbar';
+export { UsersBar } from './UsersBar';

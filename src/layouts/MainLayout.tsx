@@ -6,6 +6,8 @@ import { useMenu } from '@/features/navbar/hooks';
 import { Sidebar } from '@/features/sidebar';
 import { Navbar } from '@/features/navbar';
 import { Loading } from '@/shared';
+import { UsersBar } from '@/features/users';
+import { Bottombar } from '@/features/bottombar';
 
 const font = Nunito({ subsets: ['latin'] });
 
@@ -38,14 +40,15 @@ export const MainLayout = ({ children, sidebar = true }: Props) => {
             </div>
           )}
           <div className="flex flex-1 pb-[4.5rem] lg:px-[14%] lg:pb-0">
-            <div className="hidden flex-[1] pt-4 lg:block">
+            <div className="hidden flex-none pt-4 lg:block">
               {sidebar && <Sidebar />}
             </div>
-            <div className="flex-[4]">{children}</div>
-            <div className="hidden flex-[1] pt-4 lg:block">
-              {/* <Followbar /> */}
+            <div className="flex-1">{children}</div>
+            <div className="hidden flex-none pt-4 lg:block">
+              <UsersBar />
             </div>
           </div>
+          <Bottombar />
         </>
       )}
     </div>

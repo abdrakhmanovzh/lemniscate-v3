@@ -1,5 +1,5 @@
 import { useSession } from 'next-auth/react';
-import { BiUser, BiNews, BiChat, BiGroup, BiPhotoAlbum } from 'react-icons/bi';
+import { BiUser, BiNews, BiGroup, BiHeart } from 'react-icons/bi';
 import { SidebarItem } from './components';
 import { createUsername } from '@/shared';
 import { SidebarLink } from '../types';
@@ -21,7 +21,7 @@ export const Sidebar = () => {
     {
       label: 'likes',
       href: session ? '/likes' : null,
-      Icon: BiChat
+      Icon: BiHeart
     },
     {
       label: 'followings',
@@ -31,7 +31,7 @@ export const Sidebar = () => {
   ];
 
   return (
-    <nav className="flex w-full px-2">
+    <nav className="flex w-44 px-2">
       <ul className="flex w-full flex-col gap-1">
         {sidebarLinks.map((link, index) => (
           <SidebarItem key={index} link={link} />

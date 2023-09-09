@@ -33,7 +33,8 @@ export default async function handler(
       id: uuidv4(),
       userId: user[0].id,
       createdAt: new Date().toISOString(),
-      image: imageFilename
+      image: imageFilename,
+      likes: []
     };
 
     try {

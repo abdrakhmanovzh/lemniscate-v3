@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { signIn } from 'next-auth/react';
 
 export const LoginOptions = () => {
   return (
@@ -10,12 +9,6 @@ export const LoginOptions = () => {
       >
         sign up
       </Link>
-      <button
-        onClick={() => signIn('github')}
-        className="w-full rounded-md bg-main-grey py-1 text-main-white"
-      >
-        github
-      </button>
     </div>
   );
 };

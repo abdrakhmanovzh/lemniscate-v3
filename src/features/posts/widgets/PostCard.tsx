@@ -1,33 +1,60 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
-import TimeAgo from 'javascript-time-ago';
-import en from 'javascript-time-ago/locale/en';
+import { format } from 'timeago.js';
+import { useSession } from 'next-auth/react';
+import { BiHeart, BiSolidHeart } from 'react-icons/bi';
 import { Avatar, getSupabaseAvatar, getSupabaseImage } from '@/shared';
 import { Post } from '@/db/schema';
-
-TimeAgo.addDefaultLocale(en);
-const timeAgo = new TimeAgo('en-US');
+import { useLike } from '../hooks';
 
 interface Props {
   post: Post;
 }
 
 export const PostCard = ({ post }: Props) => {
+  const { data: session } = useSession();
+  const { mutate: like } = useLike();
+
+  const handleLike = () => {
+    like({
+      username: session!.user?.name ?? '',
+      postId: post.id
+    });
+  };
+
   return (
     <div className="flex flex-col gap-2 rounded-lg border border-main-grey bg-secondary-black p-4">
       <div className="flex items-center justify-between">
         <div className="flex flex-1 items-center gap-3">
-          <Avatar image={getSupabaseAvatar(post.author.name)} size={28} />
-          <div className="flex flex-1 flex-col items-start justify-between lg:flex-row">
-            <Link
-              href={`/${post.author.name}`}
-              className="text-lg font-semibold text-main-white"
-            >
-              {post.author.name}
-            </Link>
-            <p className="text-sm text-neutral-500">
-              {timeAgo.format(new Date(post.createdAt))}
-            </p>
+          <Avatar image={getSupabaseAvatar(post.author.name)} size={36} />
+          <div className="flex flex-1 items-start justify-between lg:flex-row">
+            <div className="flex flex-col">
+              <Link
+                href={`/${post.author.name}`}
+                className="text-lg font-semibold text-main-white"
+              >
+                {post.author.name}
+              </Link>
+              <p className="text-sm text-neutral-500">
+                {format(new Date(post.createdAt))}
+              </p>
+            </div>
+            <div onClick={handleLike}>
+              {post.likes?.length > 0 &&
+              post.likes.includes(session?.user?.name as string) ? (
+                <BiSolidHeart
+                  size={22}
+                  color={`#E57373`}
+                  className="cursor-pointer"
+                />
+              ) : (
+                <BiHeart
+                  size={22}
+                  color={`#e1e3e6`}
+                  className="cursor-pointer"
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>

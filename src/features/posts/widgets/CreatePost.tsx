@@ -1,10 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
-import { supabase } from '@/db/supabase';
-import { Avatar, getSupabaseAvatar, createUsername } from '@/shared';
-import { useSession } from 'next-auth/react';
-import { useState } from 'react';
 import { toast } from 'sonner';
+import { useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { Avatar, getSupabaseAvatar, createUsername } from '@/shared';
+import { supabase } from '@/db/supabase';
 import { useCreatePost } from '../hooks';
+import Image from 'next/image';
+import LoadingIcon from '@/assets/images/loaders/loading_white.svg';
 
 export const CreatePost = () => {
   const { data: session } = useSession();
@@ -12,6 +14,8 @@ export const CreatePost = () => {
   const [imageFile, setImageFile] = useState<any>(null);
 
   const { mutate: createPost } = useCreatePost();
+
+  const [isPostLoading, setIsPostLoading] = useState(false);
 
   const handleText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
@@ -22,16 +26,15 @@ export const CreatePost = () => {
   };
 
   const handlePost = async () => {
+    setIsPostLoading(true);
     try {
-      const uploadedImage = await supabase.storage
-        .from('images')
-        .upload(Date.now() + imageFile.name, imageFile);
-
+      const filename = Date.now() + imageFile.name;
+      await supabase.storage.from('images').upload(filename, imageFile);
       createPost(
         {
           text: text,
           username: createUsername(session?.user?.name) ?? '',
-          imageFilename: uploadedImage.data?.path ?? ''
+          imageFilename: filename
         },
         {
           onSuccess: () => {
@@ -44,6 +47,8 @@ export const CreatePost = () => {
     } catch (error) {
       toast.error('something went wrong');
       console.error(error);
+    } finally {
+      setIsPostLoading(false);
     }
   };
 
@@ -82,15 +87,19 @@ export const CreatePost = () => {
           onClick={handlePost}
           className="rounded-md bg-main-grey px-2 text-sm text-main-white"
         >
-          post
+          {isPostLoading ? (
+            <Image src={LoadingIcon} alt="..." height={20} width={20} />
+          ) : (
+            'post'
+          )}
         </button>
       </div>
       {imageFile && (
-        <div className="pt-4">
+        <div className="w-full flex-1 pt-4">
           <img
             src={URL.createObjectURL(imageFile)}
             alt="image"
-            className="max-h-[400px] max-w-lg rounded-md object-contain"
+            className="max-h-[400px] w-full rounded-md object-contain"
           />
         </div>
       )}

@@ -48,7 +48,7 @@ export const MainLayout = ({
             <div className="hidden flex-none pt-4 lg:block">
               {sidebar && <Sidebar />}
             </div>
-            <div className="flex-1">{children}</div>
+            <div className="w-full flex-1">{children}</div>
             <div className="hidden flex-none pt-4 lg:block">
               {usersbar && <UsersBar />}
             </div>

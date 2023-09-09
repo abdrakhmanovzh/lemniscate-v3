@@ -15,7 +15,8 @@ export const posts = pgTable('posts', {
   userId: text('user_id')
     .notNull()
     .references(() => users.id),
-  createdAt: text('created_at').notNull()
+  createdAt: text('created_at').notNull(),
+  likes: text('likes').array().notNull()
 });
 
 export const accounts = pgTable('accounts', {
@@ -43,6 +44,7 @@ export type Post = {
   userId: string;
   author: User;
   createdAt: string;
+  likes: string[];
 };
 
 export type NewPost = typeof posts.$inferInsert;

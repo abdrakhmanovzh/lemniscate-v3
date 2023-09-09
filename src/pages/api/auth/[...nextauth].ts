@@ -39,9 +39,6 @@ export const authOptions: NextAuthOptions = {
     })
   ],
   callbacks: {
-    // async session({user}) {
-    //   session.user.name = user.username;
-    // },
     async signIn({ user }) {
       const foundAccount = await db
         .select()

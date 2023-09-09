@@ -3,7 +3,7 @@ import { pgTable, text } from 'drizzle-orm/pg-core';
 
 export const users = pgTable('users', {
   id: text('id').primaryKey(),
-  name: text('name').notNull(),
+  name: text('name').notNull().unique(),
   coverImage: text('cover_image'),
   bio: text('bio')
 });
@@ -14,12 +14,13 @@ export const posts = pgTable('posts', {
   image: text('image'),
   userId: text('user_id')
     .notNull()
-    .references(() => users.id)
+    .references(() => users.id),
+  createdAt: text('created_at').notNull()
 });
 
 export const accounts = pgTable('accounts', {
   id: text('id').primaryKey(),
-  name: text('name').notNull(),
+  name: text('name').notNull().unique(),
   password: text('password')
 });
 
@@ -27,20 +28,21 @@ export const usersRelations = relations(users, ({ many }) => ({
   posts: many(posts)
 }));
 
-export const postsRelations = relations(posts, ({ one, many }) => ({
+export const postsRelations = relations(posts, ({ one }) => ({
   author: one(users, {
     fields: [posts.userId],
     references: [users.id]
-  }),
-  likes: many(users)
+  })
 }));
 
 export type User = typeof users.$inferSelect;
 export type Post = {
-  id: number;
+  id: string;
   text: string;
   image: string;
-  userId: number;
+  userId: string;
   author: User;
-  likes: User[];
+  createdAt: string;
 };
+
+export type NewPost = typeof posts.$inferInsert;

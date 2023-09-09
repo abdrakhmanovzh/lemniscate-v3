@@ -1,2 +1,3 @@
 export { createUsername } from './createUsername';
-export { createSupabaseImage } from './createSupabaseImage';
+export { getSupabaseAvatar } from './getSupabaseAvatar';
+export { getSupabaseImage } from './getSupabaseImage';

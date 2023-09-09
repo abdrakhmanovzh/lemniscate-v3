@@ -1,6 +1,6 @@
 import { BiLogIn } from 'react-icons/bi';
 import { useSession } from 'next-auth/react';
-import { createUsername, Avatar, createSupabaseImage } from '@/shared';
+import { createUsername, Avatar, getSupabaseAvatar } from '@/shared';
 import { useMenu } from '../../hooks';
 import Link from 'next/link';
 
@@ -19,7 +19,7 @@ export const NavbarMenu = () => {
           <Avatar
             image={
               session.user?.image ??
-              createSupabaseImage(session.user?.name as string)
+              getSupabaseAvatar(session.user?.name as string)
             }
             size={32}
             onClick={toggleMenu}

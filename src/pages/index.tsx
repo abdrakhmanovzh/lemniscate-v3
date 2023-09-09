@@ -1,9 +1,11 @@
 import Head from 'next/head';
-import { MainLayout } from '@/layouts';
+import { motion } from 'framer-motion';
 import { GetServerSideProps } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]';
-import { CreatePost } from '@/features/posts';
+import { CreatePost, PostCard, useFetchPosts } from '@/features/posts';
+import { MainLayout } from '@/layouts';
+import { Loading } from '@/shared';
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const session = await getServerSession(req, res, authOptions);
@@ -23,15 +25,27 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 };
 
 export default function Home() {
+  const { data: posts, isLoading: postsLoading } = useFetchPosts();
+
   return (
     <>
       <Head>
         <title>Lemniscate</title>
       </Head>
       <MainLayout>
-        <div className="flex flex-col gap-4 p-4">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="flex flex-col gap-4 p-4"
+        >
           <CreatePost />
-        </div>
+          {postsLoading ? (
+            <Loading />
+          ) : (
+            posts?.data &&
+            posts.data.map((post) => <PostCard key={post.id} post={post} />)
+          )}
+        </motion.div>
       </MainLayout>
     </>
   );

@@ -21,7 +21,6 @@ export const UsersBar = () => {
               href={`/${user.name}`}
               className="text-main-white hover:underline hover:underline-offset-2"
             >
-              {'// '}
               {user.name}
             </Link>
           ))

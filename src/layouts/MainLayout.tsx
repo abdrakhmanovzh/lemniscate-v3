@@ -14,9 +14,14 @@ const font = Nunito({ subsets: ['latin'] });
 interface Props {
   children: React.ReactNode;
   sidebar?: boolean;
+  usersbar?: boolean;
 }
 
-export const MainLayout = ({ children, sidebar = true }: Props) => {
+export const MainLayout = ({
+  children,
+  sidebar = true,
+  usersbar = true
+}: Props) => {
   const { status } = useSession();
 
   const { isOpen } = useMenu();
@@ -45,7 +50,7 @@ export const MainLayout = ({ children, sidebar = true }: Props) => {
             </div>
             <div className="flex-1">{children}</div>
             <div className="hidden flex-none pt-4 lg:block">
-              <UsersBar />
+              {usersbar && <UsersBar />}
             </div>
           </div>
           <Bottombar />

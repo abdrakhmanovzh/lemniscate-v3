@@ -37,7 +37,7 @@ const SigninPage = () => {
       <Head>
         <title>Sign In | Lemniscate</title>
       </Head>
-      <MainLayout sidebar={false}>
+      <MainLayout sidebar={false} usersbar={false}>
         <div className="flex flex-1 justify-center px-4 pt-20">
           <LoginCard />
         </div>

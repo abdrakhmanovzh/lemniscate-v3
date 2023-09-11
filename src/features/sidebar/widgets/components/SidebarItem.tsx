@@ -15,10 +15,10 @@ export const SidebarItem = ({ link }: Props) => {
   };
 
   return (
-    <li className="hover:bg-secondary-black w-full rounded-md py-1 pl-2">
+    <li className="w-full rounded-md py-1 pl-2 hover:bg-secondary-black">
       <button
         onClick={handleLink}
-        className="text-main-white flex items-center gap-2"
+        className="flex w-full items-center gap-2 text-main-white"
       >
         {link.Icon && <link.Icon color="#e1e3e6" />}
         {link.label}

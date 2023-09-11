@@ -13,7 +13,8 @@ const config: Config = {
         'primary-black': '#141414',
         'secondary-black': '#222222',
         'main-grey': '#424242',
-        'main-white': '#e1e3e6'
+        'main-white': '#e1e3e6',
+        'secondary-grey': '#393939'
       }
     }
   },

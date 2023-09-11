@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { format } from 'timeago.js';
 import { useSession } from 'next-auth/react';
 import { BiHeart, BiSolidHeart } from 'react-icons/bi';
+import { useQueryClient } from '@tanstack/react-query';
 import { Avatar, getSupabaseAvatar, getSupabaseImage } from '@/shared';
 import { Post } from '@/db/schema';
 import { useLike } from '../hooks';
@@ -13,13 +14,20 @@ interface Props {
 
 export const PostCard = ({ post }: Props) => {
   const { data: session } = useSession();
-  const { mutate: like } = useLike();
+  const { mutate: like } = useLike(session?.user?.name ?? '');
+  const queryClient = useQueryClient();
 
   const handleLike = () => {
-    like({
-      username: session!.user?.name ?? '',
-      postId: post.id
-    });
+    like(
+      {
+        postId: post.id
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries(['posts']);
+        }
+      }
+    );
   };
 
   return (

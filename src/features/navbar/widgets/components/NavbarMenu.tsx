@@ -1,8 +1,8 @@
+import Link from 'next/link';
 import { BiLogIn } from 'react-icons/bi';
 import { useSession } from 'next-auth/react';
 import { createUsername, Avatar, getSupabaseAvatar } from '@/shared';
 import { useMenu } from '../../hooks';
-import Link from 'next/link';
 
 export const NavbarMenu = () => {
   const { data: session, status } = useSession();
@@ -17,10 +17,7 @@ export const NavbarMenu = () => {
             {createUsername(session?.user?.name) || 'user'}
           </p>
           <Avatar
-            image={
-              session.user?.image ??
-              getSupabaseAvatar(session.user?.name as string)
-            }
+            image={getSupabaseAvatar(session.user?.name as string)}
             size={32}
             onClick={toggleMenu}
           />

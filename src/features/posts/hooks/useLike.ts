@@ -1,21 +1,15 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 
-export const useLike = () => {
+export const useLike = (username: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({
-      username,
-      postId
-    }: {
-      username: string;
-      postId: string;
-    }) => {
+    mutationFn: ({ postId }: { postId: string }) => {
       return axios.put(`/api/posts/${postId}`, { username });
     },
     onSettled: () => {
-      queryClient.invalidateQueries(['posts']);
+      queryClient.invalidateQueries(['liked_posts', username]);
     }
   });
 };

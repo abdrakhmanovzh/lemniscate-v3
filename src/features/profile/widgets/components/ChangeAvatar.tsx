@@ -42,7 +42,7 @@ export const ChangeAvatar = ({ user }: Props) => {
           save
         </button>
       </div>
-      {user && (
+      {user ? (
         <>
           <div className="flex items-center justify-between gap-2 rounded-md border-2 border-main-grey bg-secondary-black px-2 py-[6px]">
             <label
@@ -71,6 +71,8 @@ export const ChangeAvatar = ({ user }: Props) => {
             </div>
           )}
         </>
+      ) : (
+        <div className="h-9 rounded-md bg-main-grey"></div>
       )}
     </div>
   );

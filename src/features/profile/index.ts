@@ -1,1 +1,1 @@
-export { ProfileCard, ProfileSettings } from './widgets';
+export { ProfileCard, ProfileSettings, ProfileButtons } from './widgets';

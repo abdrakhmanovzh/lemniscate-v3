@@ -1,9 +1,29 @@
 import Head from 'next/head';
 import { motion } from 'framer-motion';
-import { MainLayout } from '@/layouts';
-import { PostCard, useLikedPosts } from '@/features/posts';
+import { GetServerSideProps } from 'next';
+import { getServerSession } from 'next-auth';
 import { useSession } from 'next-auth/react';
+import { authOptions } from '../api/auth/[...nextauth]';
+import { PostCard, useLikedPosts } from '@/features/posts';
+import { MainLayout } from '@/layouts';
 import { Loading } from '@/shared';
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const session = await getServerSession(req, res, authOptions);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/auth/signin',
+        permanent: false
+      }
+    };
+  }
+
+  return {
+    props: {}
+  };
+};
 
 const LikesPage = () => {
   const { data: session } = useSession();

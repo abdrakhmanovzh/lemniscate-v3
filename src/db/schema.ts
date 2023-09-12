@@ -4,8 +4,8 @@ import { pgTable, text } from 'drizzle-orm/pg-core';
 export const users = pgTable('users', {
   id: text('id').primaryKey(),
   name: text('name').notNull().unique(),
-  coverImage: text('cover_image'),
-  bio: text('bio')
+  bio: text('bio'),
+  following: text('following').array().notNull().default([])
 });
 
 export const posts = pgTable('posts', {
@@ -26,7 +26,8 @@ export const accounts = pgTable('accounts', {
 });
 
 export const usersRelations = relations(users, ({ many }) => ({
-  posts: many(posts)
+  posts: many(posts),
+  following: many(users)
 }));
 
 export const postsRelations = relations(posts, ({ one }) => ({

@@ -1,5 +1,4 @@
 import { Toaster } from 'sonner';
-import { Nunito } from 'next/font/google';
 import { useSession } from 'next-auth/react';
 import { NavbarDropdown } from '@/features/navbar/widgets';
 import { useMenu } from '@/features/navbar/hooks';
@@ -8,8 +7,6 @@ import { Navbar } from '@/features/navbar';
 import { Loading } from '@/shared';
 import { UsersBar } from '@/features/users';
 import { Bottombar } from '@/features/bottombar';
-
-const font = Nunito({ subsets: ['latin'] });
 
 interface Props {
   children: React.ReactNode;
@@ -27,9 +24,7 @@ export const MainLayout = ({
   const { isOpen } = useMenu();
 
   return (
-    <div
-      className={`${font.className} max-w-screen flex min-h-[100svh] flex-col overflow-auto bg-primary-black`}
-    >
+    <div className="max-w-screen flex min-h-[100svh] flex-col overflow-auto bg-primary-black">
       <Toaster closeButton />
 
       {status === 'loading' ? (

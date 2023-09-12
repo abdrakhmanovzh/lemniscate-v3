@@ -1,20 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 html {
-    overflow-y: scroll;
+  overflow-y: scroll;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
 }
 
 /* Scrollbar Styles */
 ::-webkit-scrollbar {
-    width: 10px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #424242;
+  background: #424242;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #222222;
+  background: #222222;
 }

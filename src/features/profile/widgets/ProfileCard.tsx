@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { Loading, getSupabaseAvatar } from '@/shared';
+import { Loading, getSupabaseAvatar, getSupabaseCoverImage } from '@/shared';
 import { AnimatedBackground } from './components';
 import { User } from '@/db/schema';
 
@@ -23,7 +23,11 @@ export const ProfileCard = ({ user }: Props) => {
   return (
     <div
       className="relative h-52 rounded-md border border-main-grey bg-secondary-black bg-cover p-2 lg:h-48"
-      style={{ backgroundImage: `url(${user?.coverImage})` }}
+      style={{
+        backgroundImage: user
+          ? `url(${getSupabaseCoverImage(user?.name ?? '')})`
+          : ''
+      }}
     >
       {user && screenWidth ? (
         <>
@@ -31,19 +35,15 @@ export const ProfileCard = ({ user }: Props) => {
           <Image
             src={getSupabaseAvatar(user.name)}
             alt="avatar"
-            width={112}
-            height={112}
+            width={200}
+            height={200}
             className="absolute bottom-20 left-1/2 h-28 w-28 -translate-x-1/2 rounded-full object-cover lg:bottom-8 lg:left-24"
           />
-          <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 flex-col items-center px-4 lg:bottom-8 lg:left-56 lg:items-start">
-            <div className="flex w-full flex-col items-center lg:items-start">
-              <p className="text-2xl font-semibold text-main-white">
-                {user.name}
-              </p>
-              <p className="text-main-white lg:bottom-8 lg:text-sm">
-                {user.bio}
-              </p>
-            </div>
+          <div className="absolute bottom-3 left-1/2 flex w-full -translate-x-1/2 flex-col items-center gap-1 lg:bottom-7 lg:left-44 lg:-translate-x-0 lg:items-start">
+            <p className="text-2xl font-semibold text-main-white">
+              {user.name}
+            </p>
+            <p className="text-main-white lg:text-sm">{user.bio}</p>
           </div>
         </>
       ) : (

@@ -1,30 +1,12 @@
 import Head from 'next/head';
 import { motion } from 'framer-motion';
-import { GetServerSideProps } from 'next';
-import { getServerSession } from 'next-auth';
-import { authOptions } from './api/auth/[...nextauth]';
+import { useSession } from 'next-auth/react';
 import { CreatePost, PostCard, useFetchPosts } from '@/features/posts';
 import { MainLayout } from '@/layouts';
 import { Loading } from '@/shared';
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const session = await getServerSession(req, res, authOptions);
-
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/auth/signin',
-        permanent: false
-      }
-    };
-  }
-
-  return {
-    props: {}
-  };
-};
-
 export default function Home() {
+  const { data: session } = useSession();
   const { data: posts, isLoading: postsLoading } = useFetchPosts();
 
   return (
@@ -38,7 +20,8 @@ export default function Home() {
           animate={{ opacity: 1 }}
           className="flex flex-col gap-4 p-4"
         >
-          <CreatePost />
+          {session && <CreatePost />}
+
           {postsLoading ? (
             <Loading />
           ) : (
